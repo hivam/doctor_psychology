@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+    <record id="doctor_psicologia_form_view" model="ir.ui.view">
+      <field name="name">doctor.psicologia.form.view</field>
+      <field name="model">doctor.psicologia</field>
+      <field name="arch" type="xml">
+        <form string="HC Psicologia" version="7.0">
+          <header>
+            <button string="Finalizar Atencion" name="cerrar_atencion" states="abierta" type="object" class="oe_highlight" groups="doctor.group_doctor_psicologo"/>
+            <field name="state" widget="statusbar" statusbar_visible="abierta,cerrada"/>
+          </header>
+          <group colspan='4' col='2'>
+            <fieldset class="fieldset_margen">
+            <legend class="texto_legend">Paciente</legend>
+            <group col='2'>
+              <field name='patient_photo' nolabel='1' widget="image" img_height="50" width="50" height="50"/>
+              <group col='1'>
+                <div>
+                  <h3>
+                    <field name='patient_id' nolabel='1' on_change="onchange_patient(patient_id)"/>
+                  </h3>
+                </div>
+                <group col='2'>
+                  <div>
+                    <field name='age_attention' nolabel='1' style="width:10%%"/>
+                    <field name='age_unit' nolabel='1' style="width:10%%"/> - de edad
+                  </div>
+                </group>
+              </group>
+              </group>
+              </fieldset>
+              <fieldset class="fieldset_margen">
+              <legend class="texto_legend">Medico</legend>
+              <group col='2'>
+              <field name='professional_photo' nolabel='1' widget="image" img_height="50" width="50" height="50"/>
+                <group col='1'>
+                <div>
+                  <field name='professional_id' nolabel='1' on_change="onchange_professional(professional_id)"/>
+                </div>
+                <group col='1'>
+                  <div>
+                    <field name='speciality' domain="[('name', '=', speciality)]" style="width:70%%"/>
+                  </div>
+                </group>
+                </group>
+                </group>
+                </fieldset>
+                </group>
+
+          <group colspan="6" col="4">
+              <field name="date_attention"/>
+              <field name="origin"/>
+          </group>
+
+          <fieldset class="fieldset_margen">
+              <legend class="texto_legend">Motivo de consulta</legend>
+              <label for="descripcion_fisica" string="Descripción física"/>
+              <field name="descripcion_fisica" />
+              <label for="plantilla_descripcion_fisica_id" string="Plantilla"/>
+              <field name="plantilla_descripcion_fisica_id" on_change='onchange_plantillas(plantilla_descripcion_fisica_id, "descripcion_fisica")' domain="[('tipo_plantilla', '=', '11')]"/>
+              
+              <label for="comportamiento_consulta" string="Comportamiento en consulta"/>
+              <field name="comportamiento_consulta" />
+              <label for="plantilla_comportamiento_consulta_id" string="Plantilla"/>
+              <field name="plantilla_comportamiento_consulta_id" on_change='onchange_plantillas(plantilla_comportamiento_consulta_id, "comportamiento_consulta")' domain="[('tipo_plantilla', '=', '12')]"/>
+          </fieldset>
+
+          
+            <fieldset>
+              <legend class="texto_legend">Area de ajuste</legend>
+              <field name="area_ajuste_ids" nolabel="1">
+                <tree editable="top">
+                  <field name="area_ajuste_id"/>
+                  <field name="descripcion"/>
+                </tree>
+                <form>
+                  <group>
+                    <field name="area_ajuste_id"/>
+                    <field name="descripcion"/>
+                  </group>
+                </form>
+              </field>
+            </fieldset>
+
+          <fieldset class="fieldset_margen">
+              <legend class="texto_legend">Estrategias de evaluación</legend>
+              <label for="estrategia_evaluacion" string="Estrategias de evaluación"/>
+              <field name="estrategia_evaluacion"/>
+              <label for="plantilla_estrategia_evaluacion_id" string="Plantilla"/>
+              <field name="plantilla_estrategia_evaluacion_id" on_change='onchange_plantillas(plantilla_estrategia_evaluacion_id, "estrategia_evaluacion")' domain="[('tipo_plantilla', '=', '13')]"/>
+          </fieldset>
+
+
+          <fieldset class="fieldset_margen">
+              <legend class="texto_legend">Plan de intervención</legend>
+              <label for="plan_intervencion" string="Plan de intervención"/>
+              <field name="plan_intervencion"/>
+              <label for="plantilla_plan_intervencion_id" string="Plantilla"/>
+              <field name="plantilla_plan_intervencion_id" on_change='onchange_plantillas(plantilla_plan_intervencion_id, "plan_intervencion")' domain="[('tipo_plantilla', '=', '14')]"/>
+
+          </fieldset>
+
+        </form>
+      </field>
+    </record>
+
+    <record id="doctor_psicologia_tree_view" model="ir.ui.view">
+      <field name="name">doctor.psicologia.tree.view</field>
+      <field name="model">doctor.psicologia</field>
+      <field name="arch" type="xml">
+        <tree string="HC Psicologia" create="false">
+          <field name="patient_id"/>
+          <field name="date_attention"/>
+          <field name="age_attention" string="Edad"/>
+          <field name="age_unit" string="Medidad"/>
+          <field name="professional_id"/>
+          <field name="speciality"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="action_doctor_psicologia" model="ir.actions.act_window">
+      <field name="name">Atencion HC Psicologia</field>
+      <field name="res_model">doctor.psicologia</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem action="action_doctor_psicologia" id="item_doctor_psicologia" name="Atencion psicologia" parent="doctor.menu_doctor_process" sequence="41"/>
+
+  </data>
+</openerp>

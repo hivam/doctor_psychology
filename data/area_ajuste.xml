@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data noupdate="1">
+    <record id="area_ajuste_001" model="doctor.area_ajuste">
+        <field name="name">Personal</field>
+        <field name="active" eval="True"/>
+    </record>
+     <record id="area_ajuste_002" model="doctor.area_ajuste">
+        <field name="name">Familiar</field>
+        <field name="active" eval="True"/>
+    </record>
+    <record id="area_ajuste_003" model="doctor.area_ajuste">
+        <field name="name">Social</field>
+        <field name="active" eval="True"/>
+    </record>
+    <record id="area_ajuste_004" model="doctor.area_ajuste">
+        <field name="name">Academica</field>
+        <field name="active" eval="True"/>
+    </record>
+    <record id="area_ajuste_005" model="doctor.area_ajuste">
+        <field name="name">Afectiva</field>
+        <field name="active" eval="True"/>
+    </record>
+    <record id="area_ajuste_006" model="doctor.area_ajuste">
+        <field name="name">Sexual</field>
+        <field name="active" eval="True"/>
+    </record>
+    <record id="area_ajuste_007" model="doctor.area_ajuste">
+        <field name="name">Laboral</field>
+        <field name="active" eval="True"/>
+    </record>
+    <record id="area_ajuste_008" model="doctor.area_ajuste">
+        <field name="name">Biologica</field>
+        <field name="active" eval="True"/>
+    </record>
+  </data>
+</openerp>
