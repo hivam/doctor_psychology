@@ -33,18 +33,18 @@ class doctor_appointment(osv.osv):
 	_columns = {}
 
 	def generate_attentiont(self, cr, uid, ids, context={}):
-
-		doctor_appointment = self.browse(cr, uid, ids, context=context)[0]
-		attentiont_id = self.create_attentiont(cr, uid, doctor_appointment, context=context)
+		res = super(doctor_appointment,self).generate_attentiont(cr, uid, ids, context)
+		doctor_appointment_variable = self.browse(cr, uid, ids, context=context)[0]
+		attentiont_id = self.create_attentiont(cr, uid, doctor_appointment_variable, context=context)
 		# Update appointment state
-		appointment_state = doctor_appointment.state
+		appointment_state = doctor_appointment_variable.state
 		if appointment_state != 'invoiced':
-			self.write(cr, uid, doctor_appointment.id, {'state': 'attending'}, context=context)
-		self.write(cr, uid, doctor_appointment.id, {'attended': True}, context=context)
+			self.write(cr, uid, doctor_appointment_variable.id, {'state': 'attending'}, context=context)
+		self.write(cr, uid, doctor_appointment_variable.id, {'attended': True}, context=context)
 		# Get appoinment type
-		appointment_type = doctor_appointment.type_id.name
+		appointment_type = doctor_appointment_variable.type_id.name
 
-		profesional_id = doctor_appointment.schedule_id.professional_id.id
+		profesional_id = doctor_appointment_variable.schedule_id.professional_id.id
 
 		#GET model of the viewpg 
 		data_obj = self.pool.get('ir.model.data')
@@ -109,8 +109,6 @@ class doctor_appointment(osv.osv):
 					'nodestroy': True,
 					'target' : 'current',
 				}
-
-
 		else:
 			# Get view to show
 			result = data_obj._get_id(cr, uid, 'doctor', 'view_doctor_attentions_form')
@@ -127,7 +125,7 @@ class doctor_appointment(osv.osv):
 				'nodestroy': True,
 				'target' : 'current',
 			}
-
+		return res
 
 
 doctor_appointment()
