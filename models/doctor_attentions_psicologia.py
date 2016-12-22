@@ -61,9 +61,9 @@ class doctor_psicologia(osv.osv):
 		'origin': fields.char('Documento origen', size=64,
 							  help="Reference of the document that produced this attentiont.", readonly=True),
 		'professional_id': fields.function(_get_profesional, relation="doctor.professional", type="many2one", store=False,
-                                    readonly=True, method=True, string="Profesional en la Salud"),
+									readonly=True, method=True, string="Profesional en la Salud"),
 		'speciality': fields.function(_get_especialidad, relation="doctor.speciality", type="many2one", store=False,
-                                    readonly=True, method=True, string="Especialidad"),
+									readonly=True, method=True, string="Especialidad"),
 		'professional_photo': fields.related('professional_id', 'photo', type="binary", relation="doctor.professional",
 											 readonly=True, store=False),
 		'age_attention': fields.integer('Edad actual', readonly=True),
@@ -74,7 +74,7 @@ class doctor_psicologia(osv.osv):
 		'plantilla_descripcion_fisica_id': fields.many2one('doctor.attentions.recomendaciones', 'Plantillas', states={'closed': [('readonly', True)]}),
 		'comportamiento_consulta': fields.text(u'Comportamiento en consulta'),
 		'plantilla_comportamiento_consulta_id': fields.many2one('doctor.attentions.recomendaciones', 'Plantillas', states={'closed': [('readonly', True)]}),
-		'estrategia_evaluacion': fields.text('Estrategias de evaluación'),
+		'estrategia_evaluacion': fields.text(u'Estrategias de evaluación'),
 		'plantilla_estrategia_evaluacion_id': fields.many2one('doctor.attentions.recomendaciones', 'Plantillas', states={'closed': [('readonly', True)]}),
 		'plan_intervencion': fields.text(u'Plan de intervención'),
 		'plantilla_plan_intervencion_id': fields.many2one('doctor.attentions.recomendaciones', 'Plantillas', states={'closed': [('readonly', True)]}),
@@ -168,6 +168,42 @@ class doctor_psicologia(osv.osv):
 			res['value'][campo]=''
 		_logger.info(res)
 		return res		
+
+
+
+	def default_get(self, cr, uid, fields, context=None):
+		res = super(doctor_psicologia,self).default_get(cr, uid, fields, context=context)
+
+		if context.get('active_model') == "doctor.patient":
+			id_paciente = context.get('default_patient_id')
+		else:
+			id_paciente = context.get('patient_id')
+
+		if id_paciente:    
+			fecha_nacimiento = self.pool.get('doctor.patient').browse(cr,uid,id_paciente,context=context).birth_date
+			res['age_attention'] = self.calcular_edad(fecha_nacimiento)
+			res['age_unit'] = self.calcular_age_unit(fecha_nacimiento)
+
+		#con esto cargams los items de revision por sistemas
+		ids = self.pool.get('doctor.area_ajuste').search(cr,uid,[('active','=',True)],context=context)
+		registros = []
+		for i in self.pool.get('doctor.area_ajuste').browse(cr,uid,ids,context=context):
+			registros.append((0,0,{'area_ajuste_id' : i.id,}))
+		#fin carga item revision sistemas
+
+		res['area_ajuste_ids'] = registros
+		_logger.info(res)
+
+		return res
+
+	def write(self, cr, uid, ids, vals, context=None):
+		
+		attentions_past = super(doctor_psicologia,self).write(cr, uid, ids, vals, context)
+		
+		ids_attention_past = self.pool.get('doctor.attention_area_ajuste').search(cr, uid, [('attentiont_id', '=', ids), ('descripcion', '=', False)], context=context)
+		self.pool.get('doctor.attention_area_ajuste').unlink(cr, uid, ids_attention_past, context)
+
+		return attentions_past
 
 
 	_defaults = {
