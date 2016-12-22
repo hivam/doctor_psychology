@@ -32,6 +32,9 @@ class doctor_appointment(osv.osv):
 
 	_columns = {}
 
+
+
+
 	def generate_attentiont(self, cr, uid, ids, context={}):
 		res = super(doctor_appointment,self).generate_attentiont(cr, uid, ids, context)
 		doctor_appointment_variable = self.browse(cr, uid, ids, context=context)[0]
