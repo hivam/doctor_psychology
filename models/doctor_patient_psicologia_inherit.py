@@ -34,7 +34,7 @@ class doctor_patient(osv.osv):
 
 
 	_columns = {
-		'attentions_aux_ids': fields.one2many('doctor.nursing.assistan', 'patient_id', 'Atenciones Aux de enfermeria'),
+		
 	}
 
 
@@ -79,7 +79,8 @@ class doctor_patient(osv.osv):
 
 		return age_unit
 
-	def atender_paciente_enfermera(self, cr, uid, ids, context=None):
+
+	def atender_paciente_psicologia(self, cr, uid, ids, context=None):
 		professional_id= self.pool.get('doctor.professional').browse(cr, uid, self.pool.get('doctor.professional').search(cr, uid, [( 'user_id',  '=', uid)]))[0].id
 		for paciente in self.browse(cr,uid,ids):
 			paciente_id = paciente.id
@@ -90,16 +91,17 @@ class doctor_patient(osv.osv):
 
 			return {
 				'type': 'ir.actions.act_window',
-				'name': 'Hc Atencion enfermeria',
+				'name': 'Hc Atencion psicologia',
 				'view_type': 'form',
 				'view_mode': 'form',
 				'res_id': False,
-				'res_model': 'doctor.nursing.assistan',
+				'res_model': 'doctor.psicologia',
 				'context': context or None,
 				'view_id': False,
 				'nodestroy': False,
 				'target': 'current'
 			}
+
 
 
 
