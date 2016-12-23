@@ -51,7 +51,7 @@ class doctor_attention_area_ajuste(osv.osv):
 	_name = "doctor.attention_area_ajuste"
 
 	_columns = {
-		'attentiont_id': fields.many2one('doctor.atencion.ries.bio', 'Attention'),
+		'attentiont_id': fields.many2one('doctor.psicologia', 'Attention'),
 		'area_ajuste_id': fields.many2one('doctor.area_ajuste', 'Area de ajuste', required=True,
 										   ondelete='restrict'),
 		'descripcion': fields.char(u'Descripción'),
