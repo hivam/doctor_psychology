@@ -3,3 +3,4 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_doctor_attentions_psicologo,doctor.psicologia,model_doctor_psicologia,doctor.group_doctor_psicologo,1,1,1,0
 access_doctor_area_ajuste_psicologo,doctor.area_ajuste,model_doctor_area_ajuste,doctor.group_doctor_psicologo,1,0,0,0
 access_doctor_area_ajuste_attentions_psicologo,doctor.attention_area_ajuste,model_doctor_attention_area_ajuste,doctor.group_doctor_psicologo,1,1,1,1
+access_doctor_attentions_diseases_psicologo,doctor.attentions.diseases,model_doctor_attentions_diseases,doctor.group_doctor_psicologo,1,1,1,0

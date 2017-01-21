@@ -70,16 +70,19 @@ class doctor_psicologia(osv.osv):
 		'age_unit': fields.selection([('1', u'Años'), ('2', 'Meses'), ('3', 'Dias'), ], 'Unidad de medida de la edad',
 									 readonly=True),
 		'state': fields.selection([('abierta', 'Abierta'), ('cerrada', 'Cerrada')], 'Estado', readonly=True, required=True),
-		'descripcion_fisica': fields.text(u'Descripción física'),
+		'motivo_consulta':fields.text('Motivo de Consulta', states={'closed': [('readonly', True)]} ), 
+		'descripcion_fisica': fields.text(u'Descripción física', states={'closed': [('readonly', True)]} ),
 		'plantilla_descripcion_fisica_id': fields.many2one('doctor.attentions.recomendaciones', 'Plantillas', states={'closed': [('readonly', True)]}),
-		'comportamiento_consulta': fields.text(u'Comportamiento en consulta'),
+		'comportamiento_consulta': fields.text(u'Comportamiento en consulta', states={'closed': [('readonly', True)]} ),
 		'plantilla_comportamiento_consulta_id': fields.many2one('doctor.attentions.recomendaciones', 'Plantillas', states={'closed': [('readonly', True)]}),
-		'estrategia_evaluacion': fields.text(u'Estrategias de evaluación'),
+		'estrategia_evaluacion': fields.text(u'Estrategias de evaluación', states={'closed': [('readonly', True)]} ),
 		'plantilla_estrategia_evaluacion_id': fields.many2one('doctor.attentions.recomendaciones', 'Plantillas', states={'closed': [('readonly', True)]}),
-		'plan_intervencion': fields.text(u'Plan de intervención'),
+		'plan_intervencion': fields.text(u'Plan de intervención', states={'closed': [('readonly', True)]} ),
 		'plantilla_plan_intervencion_id': fields.many2one('doctor.attentions.recomendaciones', 'Plantillas', states={'closed': [('readonly', True)]}),
 		'area_ajuste_ids': fields.one2many('doctor.attention_area_ajuste', 'attentiont_id', 'Area de ajuste',
 											 ondelete='restrict', states={'closed': [('readonly', True)]}),
+		'diseases_ids': fields.one2many('doctor.attentions.diseases', 'attentiont_psicologia_id', 'Diseases', ondelete='restrict',
+										states={'closed': [('readonly', True)]}),
 		
 	}
 
