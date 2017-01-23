@@ -33,6 +33,7 @@
                         'security/ir.model.access.csv',
                         'views/doctor_attentions_psicologia_view.xml',
                         'views/doctor_patient_psicologia_inherit_view.xml',
+                        'views/doctor_report_psicologia.xml',
                         'data/tipo_cita_psicologia.sql',
                         'data/area_ajuste.xml',
                     ],      

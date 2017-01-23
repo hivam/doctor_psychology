@@ -71,7 +71,7 @@
 
           
             <fieldset>
-              <legend class="texto_legend">Evalución en Áreas de ajuste</legend>
+              <legend class="texto_legend">Evaluación en Áreas de ajuste</legend>
               <field name="area_ajuste_ids" nolabel="1">
                 <tree editable="top">
                   <field name="area_ajuste_id"/>

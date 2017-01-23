@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <report auto="False" id="doctor_attention_psicologia_id" model="doctor.psicologia" name="doctor_attention_psicologia"
+                rml="doctor_psychology/report/doctor_attention_psicologia.rml" string="HC-Atención"
+                usage="default"/>
+    </data>
+</openerp>
