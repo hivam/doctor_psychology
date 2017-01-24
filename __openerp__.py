@@ -34,6 +34,7 @@
                         'views/doctor_attentions_psicologia_view.xml',
                         'views/doctor_patient_psicologia_inherit_view.xml',
                         'views/doctor_report_psicologia.xml',
+                        'views/doctor_area_ajuste_view.xml',
                         'data/tipo_cita_psicologia.sql',
                         'data/area_ajuste.xml',
                     ],      

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    <!-- appointment type Form View -->
+    <record model="ir.ui.view" id="view_doctor_area_ajuste_type_form">
+        <field name="name">area ajuste</field>
+        <field name="model">doctor.area_ajuste</field>
+        <field name="arch" type="xml">
+            <form string="area ajuste" version="7.0">
+                <group>
+                    <field name="name" string="Area ajuste"/>
+                    <field name="active"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- area ajuste Tree View -->
+    <record model="ir.ui.view" id="view_doctor_area_ajuste_type_tree">
+        <field name="name">area ajuste</field>
+        <field name="model">doctor.area_ajuste</field>
+        <field name="arch" type="xml">
+            <tree string="area ajuste" version="7.0">
+                <field name="name" string="Area ajuste"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- area ajuste Action -->
+    <record model="ir.actions.act_window" id="action_doctor_area_ajuste">
+       <field name="name">area ajuste</field>
+       <field name="type">ir.actions.act_window</field>
+       <field name="res_model">doctor.area_ajuste</field>
+       <field name="view_type">form</field>
+       <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- appointmemnt type Menu-->
+    <menuitem id="menu_doctor_area_ajuste" name="Area de Ajuste" parent="doctor.menu_doctor_config" action="action_doctor_area_ajuste"/>
+
+    </data>
+</openerp>
