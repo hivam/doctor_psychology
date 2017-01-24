@@ -52,10 +52,11 @@ class doctor_appointment(osv.osv):
 		#GET model of the viewpg 
 		data_obj = self.pool.get('ir.model.data')
 
-		_logger.info(appointment_type)	
-		
+		_logger.info(appointment_type.lower().find('Psicologia') != -1 )	
+		_logger.info(appointment_type.lower().find(u'Psicología') != -1 )
 
-		if appointment_type == 'Psicologia':
+		if appointment_type.lower().find('psicologia') != -1 or appointment_type.lower().find(u'psicología') != -1 :
+			_logger.info("entra")
 			result = data_obj._get_id(cr, uid, 'doctor_psychology', 'doctor_psicologia_form_view')
 			view_id = data_obj.browse(cr, uid, result).res_id
 			context['default_patient_id'] = context.get('patient_id')
