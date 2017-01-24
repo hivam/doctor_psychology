@@ -45,17 +45,15 @@ class doctor_appointment(osv.osv):
 			self.write(cr, uid, doctor_appointment_variable.id, {'state': 'attending'}, context=context)
 		self.write(cr, uid, doctor_appointment_variable.id, {'attended': True}, context=context)
 		# Get appoinment type
-		appointment_type = doctor_appointment_variable.type_id.name
+		tipo_historia = doctor_appointment_variable.type_id.modulos_id.name
 
 		profesional_id = doctor_appointment_variable.schedule_id.professional_id.id
 
+		_logger.info(tipo_historia)
 		#GET model of the viewpg 
 		data_obj = self.pool.get('ir.model.data')
 
-		_logger.info(appointment_type.lower().find('Psicologia') != -1 )	
-		_logger.info(appointment_type.lower().find(u'Psicología') != -1 )
-
-		if appointment_type.lower().find('psicologia') != -1 or appointment_type.lower().find(u'psicología') != -1 :
+		if tipo_historia == 'doctor_psychology'  :
 			_logger.info("entra")
 			result = data_obj._get_id(cr, uid, 'doctor_psychology', 'doctor_psicologia_form_view')
 			view_id = data_obj.browse(cr, uid, result).res_id
@@ -76,7 +74,7 @@ class doctor_appointment(osv.osv):
 
 		elif self.pool.get('doctor.doctor').modulo_instalado(cr, uid, 'doctor_dental_care', context=context):
 
-			if appointment_type == u'Odontológica':
+			if tipo_historia == u'doctor_dental_care':
 				result = data_obj._get_id(cr, uid, 'doctor_dental_care', 'view_doctor_hc_odonto_form')
 				view_id = data_obj.browse(cr, uid, result).res_id
 				context['default_patient_id'] = context.get('patient_id')
@@ -96,7 +94,7 @@ class doctor_appointment(osv.osv):
 
 		elif self.pool.get('doctor.doctor').modulo_instalado(cr, uid, 'doctor_biological_risk', context=context):
 
-			if appointment_type == u'Riesgo Biologico':
+			if tipo_historia == u'doctor_biological_risk':
 				result = data_obj._get_id(cr, uid, 'doctor_biological_risk', 'doctor_atencion_ries_bio_form_view')
 				view_id = data_obj.browse(cr, uid, result).res_id
 				context['default_patient_id'] = context.get('patient_id')
