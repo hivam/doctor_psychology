@@ -73,6 +73,8 @@ class doctor_appointment(osv.osv):
 		profesional_id = doctor_appointment_variable.schedule_id.professional_id.id
 
 		_logger.info(tipo_historia)
+		if tipo_historia == "doctor" or tipo_historia == "l10n_co_doctor":
+			attentiont_id = self.create_attentiont(cr, uid, doctor_appointment, context=context)
 		#GET model of the viewpg 
 		data_obj = self.pool.get('ir.model.data')
 
@@ -94,7 +96,7 @@ class doctor_appointment(osv.osv):
 				'nodestroy': True,
 			}
 
-		elif self.pool.get('doctor.doctor').modulo_instalado(cr, uid, 'doctor_dental_care', context=context):
+		if self.pool.get('doctor.doctor').modulo_instalado(cr, uid, 'doctor_dental_care', context=context):
 
 			if tipo_historia == u'doctor_dental_care':
 				attentiont_id = self.create_attentiont_psicologia(cr, uid, doctor_appointment_variable, self.pool.get('doctor.hc.odontologia'), context=context)
@@ -114,7 +116,7 @@ class doctor_appointment(osv.osv):
 					'nodestroy': True,
 				}
 
-		elif self.pool.get('doctor.doctor').modulo_instalado(cr, uid, 'doctor_biological_risk', context=context):
+		if self.pool.get('doctor.doctor').modulo_instalado(cr, uid, 'doctor_biological_risk', context=context):
 
 			if tipo_historia == u'doctor_biological_risk':
 				attentiont_id = self.create_attentiont_psicologia(cr, uid, doctor_appointment_variable, self.pool.get('doctor.atencion.ries.bio'), context=context)
@@ -133,9 +135,9 @@ class doctor_appointment(osv.osv):
 					'context' : context or None,
 					'nodestroy': True,
 				}
-		else:
+		
+		if tipo_historia == "doctor" or tipo_historia == "l10n_co_doctor":
 			# Get view to show
-			attentiont_id = self.create_attentiont(cr, uid, doctor_appointment_variable, context=context)
 			result = data_obj._get_id(cr, uid, 'doctor', 'view_doctor_attentions_form')
 			view_id = data_obj.browse(cr, uid, result).res_id
 
@@ -150,6 +152,6 @@ class doctor_appointment(osv.osv):
 				'nodestroy': True,
 			}
 
-
+		return True
 
 doctor_appointment()
