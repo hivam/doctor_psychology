@@ -74,7 +74,7 @@ class doctor_appointment(osv.osv):
 
 		_logger.info(tipo_historia)
 		if tipo_historia == "doctor" or tipo_historia == "l10n_co_doctor":
-			attentiont_id = self.create_attentiont(cr, uid, doctor_appointment, context=context)
+			attentiont_id = self.create_attentiont(cr, uid, doctor_appointment_variable, context=context)
 		#GET model of the viewpg 
 		data_obj = self.pool.get('ir.model.data')
 
