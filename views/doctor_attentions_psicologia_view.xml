@@ -149,7 +149,7 @@
       <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem action="action_doctor_psicologia" id="item_doctor_psicologia" name="Atencion psicologia" parent="doctor.menu_doctor_process" sequence="41"/>
+    <menuitem action="action_doctor_psicologia" id="item_doctor_psicologia" name="Atencion psicologia" groups="doctor.group_doctor_psicologo,doctor.group_doctor_assistant" parent="doctor.menu_doctor_process" sequence="41"/>
 
   </data>
 </openerp>
