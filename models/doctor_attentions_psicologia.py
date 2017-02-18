@@ -34,36 +34,17 @@ class doctor_psicologia(osv.osv):
 	def cerrar_atencion(self, cr, uid, ids, context=None):
 		return self.write(cr, uid, ids, {'state': 'cerrada'}, context=context)
 
-	def _get_profesional(self, cr, uid, ids, field_name, arg, context=None):
-		res = {}
-		professional_id = self.pool.get("doctor.professional").search(cr, uid, [('user_id', '=', uid)], context=context)
-		for dato in self.browse(cr, uid, ids):
-			
-			for profesional in self.pool.get("doctor.professional").browse(cr, uid, professional_id, context=context):
-	
-				res[dato.id] = profesional.id
-		return res
-
-
-	def _get_especialidad(self, cr, uid, ids, field_name, arg, context=None):
-		res = {}
-		professional_id = self.pool.get("doctor.professional").search(cr, uid, [('user_id', '=', uid)], context=context)
-		for dato in self.browse(cr, uid, ids):
-			for profesional in self.pool.get("doctor.professional").browse(cr, uid, professional_id, context=context):
-	
-				res[dato.id] = profesional.speciality_id.id
-		return res
-	
+		
 	_columns = {
 		'patient_id': fields.many2one('doctor.patient', 'Paciente', ondelete='restrict', readonly=True),
 		'patient_photo': fields.related('patient_id', 'photo', type="binary", relation="doctor.patient", readonly=True),
 		'date_attention': fields.datetime('Fecha de atencion', required=True, readonly=True),
 		'origin': fields.char('Documento origen', size=64,
 							  help="Reference of the document that produced this attentiont.", readonly=True),
-		'professional_id': fields.function(_get_profesional, relation="doctor.professional", type="many2one", store=False,
-									readonly=True, method=True, string="Profesional en la Salud"),
-		'speciality': fields.function(_get_especialidad, relation="doctor.speciality", type="many2one", store=False,
-									readonly=True, method=True, string="Especialidad"),
+        'professional_id': fields.many2one('doctor.professional', 'Doctor', required=True, readonly=True),
+        'speciality': fields.related('professional_id', 'speciality_id', type="many2one", relation="doctor.speciality",
+                                     string='Speciality', required=True, store=True,
+                                     states={'closed': [('readonly', True)]}),
 		'professional_photo': fields.related('professional_id', 'photo', type="binary", relation="doctor.professional",
 											 readonly=True, store=False),
 		'age_attention': fields.integer('Edad actual', readonly=True),

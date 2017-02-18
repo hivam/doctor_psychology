@@ -138,6 +138,7 @@
           <field name="age_unit" string="Medidad"/>
           <field name="professional_id"/>
           <field name="speciality"/>
+          <field name="state"/>
         </tree>
       </field>
     </record>
