@@ -12,9 +12,9 @@
             <separator/>
 
             <filter string="Atenciones Hoy"
-            name="atenciones_hoy"
-            domain="[('date_attention','&gt;=', (context_today()).strftime('%%d/%%m/%%Y 00:00:00')),('date_attention','&lt;=',(context_today()).strftime('%%d/%%m/%%Y 23:59:59'))]"
-            help="Dia Actual"/>
+                name="atenciones_hoy"
+                domain="[('date_attention','&gt;=', (context_today()).strftime('%%m-%%d-/%%Y 00:00:00')),('date_attention','&lt;=',(context_today()).strftime('%%m-%%d-%%Y 23:59:59'))]"
+                help="Dia Actual"/>
             <filter string="Atenciones Meses" domain="[]" context="{'group_by' : 'date_attention'}" />
           </group>
         </search>
