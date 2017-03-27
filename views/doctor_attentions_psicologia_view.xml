@@ -2,6 +2,28 @@
 <openerp>
   <data>
 
+    <record id="attentions_filter" model="ir.ui.view">
+      <field name="name">Atenciones Psicologia</field>
+      <field name="model">doctor.psicologia</field>
+      <field name="arch" type="xml">
+        <search string="Filtro Atenciones psicologia" version="7.0">
+          <group expand="0" string= "Agrupar Por...">
+            <filter string="Professional" domain="[]" context="{'group_by' : 'professional_id'}" />
+            <separator/>
+
+            <filter string="Atenciones Hoy"
+            name="atenciones_hoy"
+            domain="[('date_attention','&gt;=', (context_today()).strftime('%%d/%%m/%%Y 00:00:00')),('date_attention','&lt;=',(context_today()).strftime('%%d/%%m/%%Y 23:59:59'))]"
+            help="Dia Actual"/>
+            <filter string="Atenciones Meses" domain="[]" context="{'group_by' : 'date_attention'}" />
+          </group>
+        </search>
+      </field>
+    </record>
+
+
+
+
     <record id="doctor_psicologia_form_view" model="ir.ui.view">
       <field name="name">doctor.psicologia.form.view</field>
       <field name="model">doctor.psicologia</field>
