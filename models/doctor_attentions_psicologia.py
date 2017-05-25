@@ -157,7 +157,6 @@ class doctor_psicologia(osv.osv):
 
 	def default_get(self, cr, uid, fields, context=None):
 		res = super(doctor_psicologia,self).default_get(cr, uid, fields, context=context)
-
 		if context.get('active_model') == "doctor.patient":
 			id_paciente = context.get('default_patient_id')
 		else:
@@ -168,6 +167,14 @@ class doctor_psicologia(osv.osv):
 			res['age_attention'] = self.calcular_edad(fecha_nacimiento)
 			res['age_unit'] = self.calcular_age_unit(fecha_nacimiento)
 
+		
+		professional_id = self.pool.get('doctor.professional').search(cr, uid,[('user_id', '=', uid)], context=context)
+		for especialidad in self.pool.get('doctor.professional').browse(cr, uid, professional_id, context=context):
+			especialidad_id = especialidad.speciality_id.id
+		
+		if professional_id:
+			res['professional_id'] = professional_id[0]
+			res['speciality'] = especialidad_id
 		#con esto cargams los items de revision por sistemas
 		ids = self.pool.get('doctor.area_ajuste').search(cr,uid,[('active','=',True)],context=context)
 		registros = []
