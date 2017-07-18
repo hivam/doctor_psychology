@@ -11,7 +11,7 @@
 			<field name="arch" type="xml">
 
 				<field name="procedures_id" position="after">
-					<field name="attentiont_psicologia_id" readonly="1">
+					<field name="attentiont_psicologia_id" readonly="1"/>
 				</field>
 			</field>
 	</record>
