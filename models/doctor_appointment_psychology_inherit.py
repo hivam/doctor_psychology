@@ -30,7 +30,9 @@ class doctor_appointment(osv.osv):
 	_name = "doctor.appointment"
 	_inherit = "doctor.appointment"
 
-	_columns = {}
+	_columns = {
+		'attentiont_psicologia_id': fields.many2one('doctor.psicologia', 'Attentiont', ondelete='restrict', readonly=True),
+	}
 
 
 	def create_attentiont_psicologia(self, cr, uid, doctor_appointment, modelo_crear,  context={}):
@@ -50,7 +52,7 @@ class doctor_appointment(osv.osv):
 		attentiont_id = attentiont_obj.create(cr, uid, attentiont, context=context)
 		# Create number attentiont record
 		attentiont_number = {
-			'attentiont_id': attentiont_id,
+			'attentiont_psicologia_id': attentiont_id,
 		}
 
 		self.pool.get('doctor.appointment').write(cr, uid, [doctor_appointment.id], attentiont_number, context=context)
@@ -69,7 +71,8 @@ class doctor_appointment(osv.osv):
 
 		modelo = self.pool.get('doctor.doctor').tipo_historia(tipo_historia)
 
-		self.pool.get('doctor.doctor').obtener_ultimas_atenciones_paciente(cr, uid, modelo, 2, doctor_appointment_variable.patient_id.id, doctor_appointment_variable.create_date, context=context)
+		if tipo_historia == "doctor" or tipo_historia == "l10n_co_doctor":
+			self.pool.get('doctor.doctor').obtener_ultimas_atenciones_paciente(cr, uid, modelo, 2, doctor_appointment_variable.patient_id.id, doctor_appointment_variable.create_date, context=context)
 
 
 
@@ -80,6 +83,7 @@ class doctor_appointment(osv.osv):
 		tipo_historia = doctor_appointment_variable.type_id.modulos_id.name
 		tipo_cita = doctor_appointment_variable.type_id.name
 		profesional_id = doctor_appointment_variable.schedule_id.professional_id.id
+
 
 		if tipo_historia == "doctor" or tipo_historia == "l10n_co_doctor":
 			attentiont_id = self.create_attentiont(cr, uid, doctor_appointment_variable, context=context)
