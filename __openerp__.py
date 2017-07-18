@@ -31,7 +31,7 @@
     'depends'     : ['l10n_co_doctor'],
     'data'        : [
                         'security/ir.model.access.csv',
-                        'views/doctor_appointment_psycology_inherit_view',
+                        'views/doctor_appointment_psycology_inherit_view.xml',
                         'views/doctor_attentions_psicologia_view.xml',
                         'views/doctor_patient_psicologia_inherit_view.xml',
                         'views/doctor_report_psicologia.xml',
