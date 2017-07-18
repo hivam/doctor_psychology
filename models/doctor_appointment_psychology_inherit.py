@@ -69,11 +69,12 @@ class doctor_appointment(osv.osv):
 
 		tipo_historia = doctor_appointment_variable.type_id.modulos_id.name
 
-		modelo = self.pool.get('doctor.doctor').tipo_historia(tipo_historia)
+		#modelo = self.pool.get('doctor.doctor').tipo_historia(tipo_historia)
 
+		"""
 		if tipo_historia == "doctor" or tipo_historia == "l10n_co_doctor":
 			self.pool.get('doctor.doctor').obtener_ultimas_atenciones_paciente(cr, uid, modelo, 2, doctor_appointment_variable.patient_id.id, doctor_appointment_variable.create_date, context=context)
-
+		"""
 
 
 		if appointment_state != 'invoiced':
