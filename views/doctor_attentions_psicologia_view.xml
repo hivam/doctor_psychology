@@ -7,6 +7,10 @@
       <field name="model">doctor.psicologia</field>
       <field name="arch" type="xml">
         <search string="Filtro Atenciones psicologia" version="7.0">
+
+        <field name="patient_id"/>
+
+
           <group expand="0" string= "Agrupar Por...">
             <filter string="Professional" domain="[]" context="{'group_by' : 'professional_id'}" />
             <separator/>
@@ -70,81 +74,169 @@
                 </group>
                 </fieldset>
                 </group>
-
-          <group colspan="6" col="4">
-              <field name="date_attention"/>
-              <field name="origin"/>
-          </group>
           
+          <notebook colspan="4" col='4'>
+            <page string="Identificacion">
+                <group colspan='6' col='4'>
+                  <field name="paciente_tdoc"/>
+                  <field name="paciente_identificacion"/>
+                  <field name="paciente_primer_nombre"/>
+                  <field name="paciente_segundo_nombre"/>
+                  <field name="paciente_primer_apellido"/>
+                  <field name="paciente_segundo_apellido"/>
+                  <field name="paciente_birth_date" on_change="onchange_edad(paciente_birth_date)"/>
+                  <field name="paciente_sexo"/>
+                  <field name="paciente_edad_atencion"/>
+                  <field name="paciente_unidad_edad"/>
+                  <field name="paciente_ocupacion_actual"/>
+                  <field name="paciente_ocupacion_id"/>
+                  <field name="paciente_street"/>
+                  <field name="paciente_telefono"/>
+                  <field name="paciente_nombre_acompaniante"/>
+                  <field name="paciente_telefono_acompaniante"/>
+                  <field name="paciente_nombre_responsable"/>
+                  <field name="paciente_parentesco_id"/>
+                  <field name="paciente_telefono_responsable"/>
+                  <field name="paciente_insurer_prepagada_id"/>
+                </group>
+            </page>
 
-          <label for="motivo_consulta" string="Motivo de Consulta"/>
-          <field name="motivo_consulta" />
+            <page string="Atencion">
+                <group colspan="6" col="4">
+                    <field name="date_attention"/>
+                    <field name="origin"/>
+                </group>
+            
 
-          <label for="descripcion_fisica" string="Descripción física"/>
-          <field name="descripcion_fisica" />
-          <label for="plantilla_descripcion_fisica_id" string="Plantilla"/>
-          <field name="plantilla_descripcion_fisica_id" on_change='onchange_plantillas(plantilla_descripcion_fisica_id, "descripcion_fisica")' domain="[('tipo_plantilla', '=', '11')]"/>
+                <label for="motivo_consulta" string="Motivo de Consulta"/>
+                <field name="motivo_consulta" />
+
+                <label for="descripcion_fisica" string="Descripción física"/>
+                <field name="descripcion_fisica" />
+                <label for="plantilla_descripcion_fisica_id" string="Plantilla"/>
+                <field name="plantilla_descripcion_fisica_id" on_change='onchange_plantillas(plantilla_descripcion_fisica_id, "descripcion_fisica")' domain="[('tipo_plantilla', '=', '11')]"/>
+                
+                <label for="comportamiento_consulta" string="Comportamiento en consulta"/>
+                <field name="comportamiento_consulta" />
+                <label for="plantilla_comportamiento_consulta_id" string="Plantilla"/>
+                <field name="plantilla_comportamiento_consulta_id" on_change='onchange_plantillas(plantilla_comportamiento_consulta_id, "comportamiento_consulta")' domain="[('tipo_plantilla', '=', '12')]"/>
+
+
           
-          <label for="comportamiento_consulta" string="Comportamiento en consulta"/>
-          <field name="comportamiento_consulta" />
-          <label for="plantilla_comportamiento_consulta_id" string="Plantilla"/>
-          <field name="plantilla_comportamiento_consulta_id" on_change='onchange_plantillas(plantilla_comportamiento_consulta_id, "comportamiento_consulta")' domain="[('tipo_plantilla', '=', '12')]"/>
+                <fieldset>
+                  <legend class="texto_legend">Evaluación en Áreas de ajuste</legend>
+                  <field name="area_ajuste_ids" nolabel="1">
+                    <tree editable="top">
+                      <field name="area_ajuste_id"/>
+                      <field name="descripcion"/>
+                    </tree>
+                    <form>
+                      <group>
+                        <field name="area_ajuste_id"/>
+                        <field name="descripcion"/>
+                      </group>
+                    </form>
+                  </field>
+                </fieldset>
+
+                <fieldset class="fieldset_margen">
+                    <legend class="texto_legend">Estrategias de evaluación</legend>
+                    <label for="estrategia_evaluacion" string="Estrategias de evaluación"/>
+                    <field name="estrategia_evaluacion"/>
+                    <label for="plantilla_estrategia_evaluacion_id" string="Plantilla"/>
+                    <field name="plantilla_estrategia_evaluacion_id" on_change='onchange_plantillas(plantilla_estrategia_evaluacion_id, "estrategia_evaluacion")' domain="[('tipo_plantilla', '=', '13')]"/>
+                </fieldset>
 
 
-          
-            <fieldset>
-              <legend class="texto_legend">Evaluación en Áreas de ajuste</legend>
-              <field name="area_ajuste_ids" nolabel="1">
-                <tree editable="top">
-                  <field name="area_ajuste_id"/>
-                  <field name="descripcion"/>
-                </tree>
-                <form>
-                  <group>
-                    <field name="area_ajuste_id"/>
-                    <field name="descripcion"/>
-                  </group>
-                </form>
-              </field>
-            </fieldset>
+                <fieldset class="fieldset_margen">
+                    <legend class="texto_legend">Hallazgos pertinentes y plan de intervención</legend>
+                    <label for="plan_intervencion" string="Plan de intervención"/>
+                    <field name="plan_intervencion"/>
+                    <label for="plantilla_plan_intervencion_id" string="Plantilla"/>
+                    <field name="plantilla_plan_intervencion_id" on_change='onchange_plantillas(plantilla_plan_intervencion_id, "plan_intervencion")' domain="[('tipo_plantilla', '=', '14')]"/>
+                </fieldset>
 
-          <fieldset class="fieldset_margen">
-              <legend class="texto_legend">Estrategias de evaluación</legend>
-              <label for="estrategia_evaluacion" string="Estrategias de evaluación"/>
-              <field name="estrategia_evaluacion"/>
-              <label for="plantilla_estrategia_evaluacion_id" string="Plantilla"/>
-              <field name="plantilla_estrategia_evaluacion_id" on_change='onchange_plantillas(plantilla_estrategia_evaluacion_id, "estrategia_evaluacion")' domain="[('tipo_plantilla', '=', '13')]"/>
-          </fieldset>
+                <notebook colspan="4" col='4'>
+                  <page string="Diagnosticos">
+                    <notebook colspan="4" col='4'>
+                      <page string="Diagnosticos Anteriores">
+                        <group col="2" colspan="2">
+                          <field name="diseases_ago_ids" colspan="4" nolabel="1" readonly="1">
+                              <tree string="Diseases" editable="bottom">
+                                  <field name="diseases_id" />
+                                  <field name="status"/>
+                                  <field name="diseases_type"/>
+                              </tree>
+                              <form string="Diseases">
+                                  <group>
+                                      <field name="diseases_id"/>
+                                      <field name="status"/>
+                                      <field name="diseases_type"/>
+                                  </group>
+                              </form>
+                          </field>
+                        </group>
+                        </page>
+                        <page string="Diagnostico">
+                          <group col="2" colspan="2">
+                            <field name="diseases_ids" colspan="4" nolabel="1">
+                                <tree string="Diseases" editable="bottom">
+                                  <field name="diseases_id" />
+                                  <field name="status"/>
+                                  <field name="diseases_type"/>
+                                </tree>
+                              <form string="Diseases">
+                                <group>
+                                  <field name="diseases_id"/>
+                                  <field name="status"/>
+                                  <field name="diseases_type"/>
+                                </group>
+                              </form>
+                            </field>
+                          </group>
+                        </page>
+                      </notebook>
+                    </page>
+                    <page string="Informes y Certificados">
+                      <field name="certificados_ids" nolabel="1" context="{'professional_id' : professional_id, 'tipo_plantilla' : '02'}">
+                            <form string="Informes y Certificados">
+                                <group colspan='3' col='2'>
+                                    <field name="name"/>
+                                     <field name="expedicion_certificado"/>
+                                     <field name="asunto" placeholder="El Dr. Certifica Qué"/>
+                                     <field name="professional_id"/>
+                                     <field name="cuerpo"/>
+                                     <field name="plantilla_id" on_change="onchange_plantillas(plantilla_id)" domain="[('tipo_plantilla', '=', '02')]"/>
+                                </group>  
+                                <group colspan="3" col="2">
+                                    <div>
+                                        <field name="multi_images" nolabel="1">
+                                            <tree string="Imagenes" editable="top">
+                                                <field name="name"/>
+                                            </tree>
+                                        </field>
+                                    </div>
+                                </group> 
+                            </form>
+                        </field>
+                      </page>
+                  </notebook>
 
+              </page>
 
-          <fieldset class="fieldset_margen">
-              <legend class="texto_legend">Hallazgos pertinentes y plan de intervención</legend>
-              <label for="plan_intervencion" string="Plan de intervención"/>
-              <field name="plan_intervencion"/>
-              <label for="plantilla_plan_intervencion_id" string="Plantilla"/>
-              <field name="plantilla_plan_intervencion_id" on_change='onchange_plantillas(plantilla_plan_intervencion_id, "plan_intervencion")' domain="[('tipo_plantilla', '=', '14')]"/>
-          </fieldset>
-
-          <fieldset class="fieldset_margen">
-            <legend class="texto_legend">Diagnóstico</legend>
-            <group col="2" colspan="2">
-              <field name="diseases_ids" colspan="4" nolabel="1">
-                  <tree string="Diseases" editable="bottom">
-                    <field name="diseases_id" />
-                    <field name="status"/>
-                    <field name="diseases_type"/>
+              <page string="Adjuntos">
+                <field name="adjuntos_paciente_psico_ids" nolabel="1" >
+                  <tree string="Adjuntos" >
+                      <field name="name"/>
+                      <field name="type" invisible="1"/>
+                      <field name="store_fname" invisible="1"/>
+                      <field name="datas" filename="datas_fname"/>
+                      <field name="datas_fname" invisible="1"/>
                   </tree>
-                <form string="Diseases">
-                  <group>
-                    <field name="diseases_id"/>
-                    <field name="status"/>
-                    <field name="diseases_type"/>
-                  </group>
-                </form>
-              </field>
-            </group>
-          </fieldset>
+                </field>
+              </page>
 
+           </notebook>
         </form>
       </field>
     </record>

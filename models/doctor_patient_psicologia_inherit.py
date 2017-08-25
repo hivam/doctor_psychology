@@ -34,7 +34,7 @@ class doctor_patient(osv.osv):
 
 
 	_columns = {
-		
+		'attentions_psicologia_ids': fields.one2many('doctor.psicologia', 'patient_id', 'Atenciones Psicologia'),
 	}
 
 
