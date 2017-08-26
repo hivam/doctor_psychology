@@ -15,7 +15,7 @@
 
         <xpath expr="/form[@string='Patient']/sheet/notebook[@colspan='4']" position="inside">
           <page string="Atenciones Psicologia">
-            <field name="attentions_odontologia_ids" nolabel="1" readonly="1">
+            <field name="attentions_psicologia_ids" nolabel="1" readonly="1">
               <tree string="Atenciones">
                 <field name="professional_id"/>
                 <field name="speciality"/>
