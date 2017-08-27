@@ -376,10 +376,10 @@ class doctor_psicologia(osv.osv):
 		'date_attention': fields.datetime('Fecha de atencion', required=True, readonly=True),
 		'origin': fields.char('Documento origen', size=64,
 							  help="Reference of the document that produced this attentiont.", readonly=True),
-        'professional_id': fields.many2one('doctor.professional', 'Doctor', required=True, readonly=True),
-        'speciality': fields.related('professional_id', 'speciality_id', type="many2one", relation="doctor.speciality",
-                                     string='Speciality', required=True, store=True, readonly=True,
-                                     states={'cerrada': [('readonly', True)]}),
+		'professional_id': fields.many2one('doctor.professional', 'Doctor', required=True, readonly=True),
+		'speciality': fields.related('professional_id', 'speciality_id', type="many2one", relation="doctor.speciality",
+									 string='Speciality', required=True, store=True, readonly=True,
+									 states={'cerrada': [('readonly', True)]}),
 		'professional_photo': fields.related('professional_id', 'photo', type="binary", relation="doctor.professional",
 											 readonly=True, store=False),
 		'age_attention': fields.integer('Edad actual', readonly=True),
@@ -656,6 +656,62 @@ class doctor_psicologia(osv.osv):
 
 		return attentions_past
 
+	def button_imprimir_informes(self, cr, uid, ids, context=None):
+		data_obj = self.pool.get('ir.model.data')
+		result = data_obj._get_id(cr, uid, 'l10n_co_doctor', 'view_doctor_list_report_form')
+		view_id = data_obj.browse(cr, uid, result).res_id
+
+
+
+		profesional=''
+		patient=''
+		for x in self.browse(cr,uid,ids):
+			patient= x.patient_id.id
+			profesional= x.professional_id.id
+
+		context['default_patient_id']= patient
+		context['default_professional_id']= profesional
+
+		return {
+			'type': 'ir.actions.act_window',
+			'name': 'Ver Historia Clínica Completa',
+			'view_type': 'form',
+			'view_mode': 'form',
+			'res_id': False,
+			'res_model': 'doctor.list_report',
+			'context': context or None,
+			'view_id': [view_id] or False,
+			'nodestroy': False,
+			'target': 'new'
+		}
+
+
+	def button_imprimir_ultimas_hc(self, cr, uid, ids, context=None):
+		data_obj = self.pool.get('ir.model.data')
+		result = data_obj._get_id(cr, uid, 'l10n_co_doctor', 'view_doctor_list_report_print_form')
+		view_id = data_obj.browse(cr, uid, result).res_id
+
+		profesional=''
+		patient=''
+		for x in self.browse(cr,uid,ids):
+			patient= x.patient_id.id
+			profesional= x.professional_id.id
+
+		context['default_patient_id']= patient
+		context['default_professional_id']= profesional
+
+		return {
+			'type': 'ir.actions.act_window',
+			'name': 'Ver últimas Atenciones',
+			'view_type': 'form',
+			'view_mode': 'form',
+			'res_id': False,
+			'res_model': 'doctor.list_report_print',
+			'context': context or None,
+			'view_id': [view_id] or False,
+			'nodestroy': False,
+			'target': 'new'
+			}
 
 	_defaults = {
 		'date_attention': lambda *a: datetime.strftime(datetime.now(), "%Y-%m-%d %H:%M:%S"),
@@ -664,3 +720,5 @@ class doctor_psicologia(osv.osv):
 
 
 doctor_psicologia()
+
+
