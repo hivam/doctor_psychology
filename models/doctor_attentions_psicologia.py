@@ -540,6 +540,12 @@ class doctor_psicologia(osv.osv):
 		_logger.info(res)
 		return res		
 
+	def onchange_edad(self, cr, uid, ids, birth_date, context=None):
+		res={'value':{}}
+		if birth_date:
+			res['value']['paciente_edad_atencion']= self.calcular_edad(birth_date)
+			res['value']['paciente_unidad_edad']=self.calcular_age_unit(birth_date)
+		return res
 
 
 	def default_get(self, cr, uid, fields, context=None):
@@ -562,6 +568,73 @@ class doctor_psicologia(osv.osv):
 		if professional_id:
 			res['professional_id'] = professional_id[0]
 			res['speciality'] = especialidad_id
+		
+
+
+		if id_paciente:
+			registro = []
+			arreglo_ago=[]
+			atenciones = self.search(cr, uid, [('patient_id', '=', id_paciente)])	
+			diseases_ago_ids = self.pool.get('doctor.attentions.diseases').search(cr, uid, [('attentiont_psicologia_id', 'in', atenciones)])
+			for i in self.pool.get('doctor.attentions.diseases').browse(cr,uid,diseases_ago_ids,context=context):
+				arreglo_ago.append((0,0,{'diseases_id' : i.diseases_id.id , 'status' : i.status, 'diseases_type': i.diseases_type}))
+
+			for datos_paciente in self.pool.get('doctor.patient').browse(cr, uid, [id_paciente], context=context):
+
+				ref = datos_paciente.ref
+				tdoc = datos_paciente.tdoc
+
+				res['paciente_tdoc'] = datos_paciente.tdoc
+				res['paciente_identificacion'] = datos_paciente.ref
+				res['paciente_primer_nombre'] = datos_paciente.firstname
+				res['paciente_primer_apellido'] = datos_paciente.lastname
+				res['paciente_sexo'] = datos_paciente.sex
+				res['paciente_birth_date'] = datos_paciente.birth_date
+				res['paciente_edad_atencion'] = self.calcular_edad(datos_paciente.birth_date)
+				res['paciente_unidad_edad'] = self.calcular_age_unit(datos_paciente.birth_date)
+
+				if datos_paciente.middlename:
+					res['paciente_segundo_nombre'] = datos_paciente.middlename
+				if datos_paciente.surname:
+					res['paciente_segundo_apellido'] = datos_paciente.surname
+				if datos_paciente.ocupacion_actual:
+					res['paciente_ocupacion_actual'] = datos_paciente.ocupacion_actual
+				if datos_paciente.ocupacion_id:
+					res['paciente_ocupacion_id'] = datos_paciente.ocupacion_id.id
+				if datos_paciente.street:
+					res['paciente_street'] = datos_paciente.street
+				if datos_paciente.telefono:
+					res['paciente_telefono'] = datos_paciente.telefono
+				if datos_paciente.nombre_acompaniante:
+					res['paciente_nombre_acompaniante'] = datos_paciente.nombre_acompaniante
+				if datos_paciente.telefono_acompaniante:
+					res['paciente_telefono_acompaniante'] = datos_paciente.telefono_acompaniante
+				if datos_paciente.nombre_responsable:
+					res['paciente_nombre_responsable'] = datos_paciente.nombre_responsable
+				if datos_paciente.telefono_responsable:
+					res['paciente_telefono_responsable'] = datos_paciente.telefono_responsable
+				if datos_paciente.parentesco_id:
+					res['paciente_parentesco_id'] = datos_paciente.parentesco_id.id
+				if datos_paciente.insurer_prepagada_id:
+					res['paciente_insurer_prepagada_id'] = datos_paciente.insurer_prepagada_id.id
+						
+			modelo_buscar = self.pool.get('ir.attachment')
+
+			adjuntos_id = modelo_buscar.search(cr, uid, [('res_id', '=', id_paciente)], context=context)
+
+			if adjuntos_id:
+				
+				for datos in modelo_buscar.browse(cr, uid, adjuntos_id, context=context):
+					registro.append((0,0,{'name' : datos.name, 'datas' : datos.datas})) 
+
+			res['ref'] = ref
+			res['tdoc'] = self.pool.get('doctor.doctor').tipo_documento(tdoc)
+			res['diseases_ago_ids'] = arreglo_ago
+
+		if registro:		
+			res['adjuntos_paciente_ids'] = registro
+				
+
 		#con esto cargams los items de revision por sistemas
 		ids = self.pool.get('doctor.area_ajuste').search(cr,uid,[('active','=',True)],context=context)
 		registros = []

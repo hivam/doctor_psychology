@@ -5,3 +5,4 @@ import doctor_patient_psicologia_inherit
 import doctor_attentions_diseases_inherit
 import doctor_attentions_certificado_inherit
 import multi_imagen_inherit
+import doctor_parent_ocu
