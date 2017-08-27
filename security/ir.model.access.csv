@@ -8,3 +8,5 @@ access_doctor_attentions_certificado_psicologo,doctor.attentions.certificado,mod
 access_doctor_multi_imagen_psicologo,multi_imagen,model_multi_imagen,doctor.group_doctor_psicologo,1,1,1,0
 access_doctor_patient_ocupacion_psico,doctor.patient.ocupacion,model_doctor_patient_ocupacion,doctor.group_doctor_psicologo,1,1,1,0
 access_doctor_patient_parentesco_psic,doctor.patient.parentesco,model_doctor_patient_parentesco,doctor.group_doctor_psicologo,1,1,1,0
+access_doctor_attentions_medico,doctor.psicologia,model_doctor_psicologia,doctor.group_doctor_physician,1,0,0,0
+access_doctor_attentions_asistente,doctor.psicologia,model_doctor_psicologia,doctor.group_doctor_assistant,1,0,0,0
