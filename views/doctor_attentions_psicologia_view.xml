@@ -144,6 +144,13 @@
                   </field>
                 </fieldset>
 
+                <fieldset>
+                  <legend class="texto_legend">Familiograma</legend>
+                  <group>
+                    <field name="img_familiograma" nolabel="1" widget="image" style="width: 265px; height: 100;" colspan="4"/>
+                  </group>
+                </fieldset>
+
                 <fieldset class="fieldset_margen">
                     <legend class="texto_legend">Estrategias de evaluación</legend>
                     <label for="estrategia_evaluacion" string="Estrategias de evaluación"/>

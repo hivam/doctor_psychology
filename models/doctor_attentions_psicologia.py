@@ -358,6 +358,7 @@ class doctor_psicologia(osv.osv):
 		return res	
 
 
+
 	def load_attentions_diseases_ago(self, cr, uid, ids, field_name, arg, context=None):
 		res = {}
 		patient_id=None
@@ -451,6 +452,8 @@ class doctor_psicologia(osv.osv):
 		'diseases_ago_ids': fields.function(load_attentions_diseases_ago, relation="doctor.attentions.diseases", type="one2many", store=False, readonly=True, method=True, string=u"Diagnósticos Anteriores"),
 		
 		'certificados_ids': fields.one2many('doctor.attentions.certificado', 'attentiont_psicologia_id', u'Certificados',states={'closed': [('readonly', True)]}),
+
+		'img_familiograma': fields.binary('Familiograma', states={'cerrada': [('readonly', True)]}),
 
 	}
 
@@ -575,7 +578,20 @@ class doctor_psicologia(osv.osv):
 			registro = []
 			arreglo_ago=[]
 			atenciones = self.search(cr, uid, [('patient_id', '=', id_paciente)])	
+			_logger.info(atenciones)
+
+			img_familiograma_id = self.search(cr, uid, [('patient_id', '=', id_paciente)], order='id asc', context=context)
+			if img_familiograma_id:
+				_logger.info(img_familiograma_id)
+				for familiograma in self.browse(cr, uid, img_familiograma_id, context=context):
+					if familiograma.img_familiograma:
+						res['img_familiograma'] = familiograma.img_familiograma
+
+
 			diseases_ago_ids = self.pool.get('doctor.attentions.diseases').search(cr, uid, [('attentiont_psicologia_id', 'in', atenciones)])
+			
+
+
 			for i in self.pool.get('doctor.attentions.diseases').browse(cr,uid,diseases_ago_ids,context=context):
 				arreglo_ago.append((0,0,{'diseases_id' : i.diseases_id.id , 'status' : i.status, 'diseases_type': i.diseases_type}))
 
