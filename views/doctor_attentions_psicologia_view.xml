@@ -103,6 +103,8 @@
                   <field name="paciente_parentesco_id"/>
                   <field name="paciente_telefono_responsable"/>
                   <field name="paciente_insurer_prepagada_id"/>
+                  <field name="paciente_blood_type"/>
+                  <field name="paciente_rh"/>
                 </group>
             </page>
 

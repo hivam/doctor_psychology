@@ -169,6 +169,30 @@ class doctor_psicologia(osv.osv):
 					return self.pool.get('doctor.patient').write(cr, uid, [datos.patient_id.id], {'nombre_responsable' : field_value})
 
 
+	def _set_blood_type(self, cr, uid, ids, field_name, field_value, arg, context=None):
+		field_value = field_value or None
+		if field_value:
+			for datos in self.browse(cr, uid, [ids], context=context):
+				dato_cambio_id = self.pool.get('doctor.patient').search(cr, uid, [('id', '=', datos.patient_id.id), 
+					('blood_type', '=', field_value)], context=context)
+				if not dato_cambio_id:
+					return self.pool.get('doctor.patient').write(cr, uid, [datos.patient_id.id], {'blood_type' : field_value})
+
+
+
+
+	def _set_rh(self, cr, uid, ids, field_name, field_value, arg, context=None):
+		field_value = field_value or None
+		if field_value:
+			for datos in self.browse(cr, uid, [ids], context=context):
+				dato_cambio_id = self.pool.get('doctor.patient').search(cr, uid, [('id', '=', datos.patient_id.id), 
+					('rh', '=', field_value)], context=context)
+				if not dato_cambio_id:
+					return self.pool.get('doctor.patient').write(cr, uid, [datos.patient_id.id], {'rh' : field_value})
+
+
+
+
 	def _set_tel_res(self, cr, uid, ids, field_name, field_value, arg, context=None):
 		field_value = field_value or None
 		if field_value:
@@ -326,8 +350,6 @@ class doctor_psicologia(osv.osv):
 	def _get_profesion(self, cr, uid, ids, field_name, arg, context=None):
 		res = {}
 		for datos in self.browse(cr, uid, ids):
-			_logger.info("###############")
-			_logger.info(datos.patient_id.ocupacion_id.id)
 			if datos.patient_id.ocupacion_id:
 				res[datos.id] = datos.patient_id.ocupacion_id.id
 		return res
@@ -345,6 +367,25 @@ class doctor_psicologia(osv.osv):
 			if datos.patient_id.parentesco_id:
 				res[datos.id] = datos.patient_id.parentesco_id.id
 		return res
+
+
+	def _get_blood_type(self, cr, uid, ids, field_name, arg, context=None):
+		res = {}
+		for datos in self.browse(cr, uid, ids):
+			_logger.info("TIPO DE SANGRE")
+			_logger.info(datos.patient_id.rh)
+			res[datos.id] = datos.patient_id.blood_type
+		return res
+
+
+
+	def _get_rh(self, cr, uid, ids, field_name, arg, context=None):
+		res = {}
+		for datos in self.browse(cr, uid, ids):
+			res[datos.id] = datos.patient_id.rh
+		return res
+
+
 
 	def  _get_adjuntos(self, cr, uid, ids, field_name, arg, context=None):
 
@@ -443,6 +484,13 @@ class doctor_psicologia(osv.osv):
 								string=u'Aseguradora', relation='doctor.insurer'),
 		'paciente_parentesco_id': fields.function(_get_parentesco, fnct_inv=_set_parentesco , type="many2one", store= False, 
 								string=u'Parentesco', relation='doctor.patient.parentesco'),
+
+		'paciente_blood_type': fields.function(_get_blood_type,fnct_inv=_set_blood_type, type='selection', selection=[('A', 'A'), ('B', 'B'), ('AB', 'AB'), ('O', 'O')], string='Tipo Sangre',
+									store=False),
+
+		'paciente_rh': fields.function(_get_rh,fnct_inv=_set_rh, type='selection', selection=[('+', '+'), ('-', '-'), ], string='Rh',
+									store=False),
+
 
 
 		'adjuntos_paciente_psico_ids': fields.function(_get_adjuntos, type="one2many", store= False, 
