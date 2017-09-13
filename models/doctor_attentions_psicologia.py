@@ -524,6 +524,9 @@ class doctor_psicologia(osv.osv):
 
 		'img_familiograma': fields.binary('Familiograma', states={'cerrada': [('readonly', True)]}),
 
+		'paciente_otros': fields.text('Otros'),
+		'plantilla_paciente_otros': fields.many2one('doctor.attentions.recomendaciones', 'Plantillas'),
+
 	}
 
 	def onchange_patient(self, cr, uid, ids, patient_id, context=None):
@@ -659,6 +662,12 @@ class doctor_psicologia(osv.osv):
 
 			diseases_ago_ids = self.pool.get('doctor.attentions.diseases').search(cr, uid, [('attentiont_psicologia_id', 'in', atenciones)])
 			
+
+			for otros_paciente in self.browse(cr, uid, atenciones, context=context):
+
+				if otros_paciente.paciente_otros:
+
+					res['paciente_otros'] = otros_paciente.paciente_otros + '\n'
 
 
 			for i in self.pool.get('doctor.attentions.diseases').browse(cr,uid,diseases_ago_ids,context=context):
