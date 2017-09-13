@@ -704,6 +704,10 @@ class doctor_psicologia(osv.osv):
 					res['paciente_insurer_prepagada_id'] = datos_paciente.insurer_prepagada_id.id
 				if datos_paciente.creencias:
 					res['paciente_creencias'] = datos_paciente.creencias
+				if datos_paciente.rh:
+					res['paciente_rh'] = datos_paciente.rh
+				if datos_paciente.blood_type:
+					res['paciente_blood_type'] = datos_paciente.blood_type
 
 			modelo_buscar = self.pool.get('ir.attachment')
 

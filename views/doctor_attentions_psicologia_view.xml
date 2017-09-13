@@ -109,10 +109,6 @@
                     <field name="paciente_blood_type" class="left-margin" style="width: 15%%"/>
                     <field name="paciente_rh" style="width: 15%%" nolabel="1"/>
                   </div>
-
-
-
-
                 </group>
             </page>
 
