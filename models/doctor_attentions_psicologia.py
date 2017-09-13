@@ -202,6 +202,17 @@ class doctor_psicologia(osv.osv):
 				if not dato_cambio_id:
 					return self.pool.get('doctor.patient').write(cr, uid, [datos.patient_id.id], {'telefono_responsable' : field_value})
 
+
+	def _set_creencias(self, cr, uid, ids, field_name, field_value, arg, context=None):
+		field_value = field_value or None
+		if field_value:
+			for datos in self.browse(cr, uid, [ids], context=context):
+				dato_cambio_id = self.pool.get('doctor.patient').search(cr, uid, [('id', '=', datos.patient_id.id), 
+					('creencias', '=', field_value)], context=context)
+				if not dato_cambio_id:
+					return self.pool.get('doctor.patient').write(cr, uid, [datos.patient_id.id], {'creencias' : field_value})
+
+
 	def _set_profesion(self, cr, uid, ids, field_name, field_value, arg, context=None):
 		field_value = field_value or None
 		if field_value:
@@ -347,6 +358,14 @@ class doctor_psicologia(osv.osv):
 				res[datos.id] = datos.patient_id.telefono_responsable
 		return res
 
+	def _get_creencias(self, cr, uid, ids, field_name, arg, context=None):
+		res = {}
+		for datos in self.browse(cr, uid, ids):
+			if datos.patient_id.creencias:
+				res[datos.id] = datos.patient_id.creencias
+		return res
+
+
 	def _get_profesion(self, cr, uid, ids, field_name, arg, context=None):
 		res = {}
 		for datos in self.browse(cr, uid, ids):
@@ -491,6 +510,8 @@ class doctor_psicologia(osv.osv):
 		'paciente_rh': fields.function(_get_rh,fnct_inv=_set_rh, type='selection', selection=[('+', '+'), ('-', '-'), ], string='Rh',
 									store=False),
 
+		'paciente_creencias': fields.function(_get_creencias, fnct_inv=_set_creencias , type="char", store= False, 
+								string=u'Creencias'), 
 
 
 		'adjuntos_paciente_psico_ids': fields.function(_get_adjuntos, type="one2many", store= False, 
@@ -681,7 +702,9 @@ class doctor_psicologia(osv.osv):
 					res['paciente_parentesco_id'] = datos_paciente.parentesco_id.id
 				if datos_paciente.insurer_prepagada_id:
 					res['paciente_insurer_prepagada_id'] = datos_paciente.insurer_prepagada_id.id
-						
+				if datos_paciente.creencias:
+					res['paciente_creencias'] = datos_paciente.creencias
+
 			modelo_buscar = self.pool.get('ir.attachment')
 
 			adjuntos_id = modelo_buscar.search(cr, uid, [('res_id', '=', id_paciente)], context=context)
