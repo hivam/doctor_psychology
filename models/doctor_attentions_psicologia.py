@@ -169,6 +169,30 @@ class doctor_psicologia(osv.osv):
 					return self.pool.get('doctor.patient').write(cr, uid, [datos.patient_id.id], {'nombre_responsable' : field_value})
 
 
+	def _set_blood_type(self, cr, uid, ids, field_name, field_value, arg, context=None):
+		field_value = field_value or None
+		if field_value:
+			for datos in self.browse(cr, uid, [ids], context=context):
+				dato_cambio_id = self.pool.get('doctor.patient').search(cr, uid, [('id', '=', datos.patient_id.id), 
+					('blood_type', '=', field_value)], context=context)
+				if not dato_cambio_id:
+					return self.pool.get('doctor.patient').write(cr, uid, [datos.patient_id.id], {'blood_type' : field_value})
+
+
+
+
+	def _set_rh(self, cr, uid, ids, field_name, field_value, arg, context=None):
+		field_value = field_value or None
+		if field_value:
+			for datos in self.browse(cr, uid, [ids], context=context):
+				dato_cambio_id = self.pool.get('doctor.patient').search(cr, uid, [('id', '=', datos.patient_id.id), 
+					('rh', '=', field_value)], context=context)
+				if not dato_cambio_id:
+					return self.pool.get('doctor.patient').write(cr, uid, [datos.patient_id.id], {'rh' : field_value})
+
+
+
+
 	def _set_tel_res(self, cr, uid, ids, field_name, field_value, arg, context=None):
 		field_value = field_value or None
 		if field_value:
@@ -177,6 +201,17 @@ class doctor_psicologia(osv.osv):
 					('telefono_responsable', '=', field_value)], context=context)
 				if not dato_cambio_id:
 					return self.pool.get('doctor.patient').write(cr, uid, [datos.patient_id.id], {'telefono_responsable' : field_value})
+
+
+	def _set_creencias(self, cr, uid, ids, field_name, field_value, arg, context=None):
+		field_value = field_value or None
+		if field_value:
+			for datos in self.browse(cr, uid, [ids], context=context):
+				dato_cambio_id = self.pool.get('doctor.patient').search(cr, uid, [('id', '=', datos.patient_id.id), 
+					('creencias', '=', field_value)], context=context)
+				if not dato_cambio_id:
+					return self.pool.get('doctor.patient').write(cr, uid, [datos.patient_id.id], {'creencias' : field_value})
+
 
 	def _set_profesion(self, cr, uid, ids, field_name, field_value, arg, context=None):
 		field_value = field_value or None
@@ -323,11 +358,17 @@ class doctor_psicologia(osv.osv):
 				res[datos.id] = datos.patient_id.telefono_responsable
 		return res
 
+	def _get_creencias(self, cr, uid, ids, field_name, arg, context=None):
+		res = {}
+		for datos in self.browse(cr, uid, ids):
+			if datos.patient_id.creencias:
+				res[datos.id] = datos.patient_id.creencias
+		return res
+
+
 	def _get_profesion(self, cr, uid, ids, field_name, arg, context=None):
 		res = {}
 		for datos in self.browse(cr, uid, ids):
-			_logger.info("###############")
-			_logger.info(datos.patient_id.ocupacion_id.id)
 			if datos.patient_id.ocupacion_id:
 				res[datos.id] = datos.patient_id.ocupacion_id.id
 		return res
@@ -345,6 +386,25 @@ class doctor_psicologia(osv.osv):
 			if datos.patient_id.parentesco_id:
 				res[datos.id] = datos.patient_id.parentesco_id.id
 		return res
+
+
+	def _get_blood_type(self, cr, uid, ids, field_name, arg, context=None):
+		res = {}
+		for datos in self.browse(cr, uid, ids):
+			_logger.info("TIPO DE SANGRE")
+			_logger.info(datos.patient_id.rh)
+			res[datos.id] = datos.patient_id.blood_type
+		return res
+
+
+
+	def _get_rh(self, cr, uid, ids, field_name, arg, context=None):
+		res = {}
+		for datos in self.browse(cr, uid, ids):
+			res[datos.id] = datos.patient_id.rh
+		return res
+
+
 
 	def  _get_adjuntos(self, cr, uid, ids, field_name, arg, context=None):
 
@@ -444,6 +504,15 @@ class doctor_psicologia(osv.osv):
 		'paciente_parentesco_id': fields.function(_get_parentesco, fnct_inv=_set_parentesco , type="many2one", store= False, 
 								string=u'Parentesco', relation='doctor.patient.parentesco'),
 
+		'paciente_blood_type': fields.function(_get_blood_type,fnct_inv=_set_blood_type, type='selection', selection=[('A', 'A'), ('B', 'B'), ('AB', 'AB'), ('O', 'O')], string='Tipo Sangre',
+									store=False),
+
+		'paciente_rh': fields.function(_get_rh,fnct_inv=_set_rh, type='selection', selection=[('+', '+'), ('-', '-'), ], string='Rh',
+									store=False),
+
+		'paciente_creencias': fields.function(_get_creencias, fnct_inv=_set_creencias , type="char", store= False, 
+								string=u'Creencias'), 
+
 
 		'adjuntos_paciente_psico_ids': fields.function(_get_adjuntos, type="one2many", store= False, 
 								string=u'Adjuntos', relation='ir.attachment',states={'closed': [('readonly', True)]}),
@@ -454,6 +523,9 @@ class doctor_psicologia(osv.osv):
 		'certificados_ids': fields.one2many('doctor.attentions.certificado', 'attentiont_psicologia_id', u'Certificados',states={'closed': [('readonly', True)]}),
 
 		'img_familiograma': fields.binary('Familiograma', states={'cerrada': [('readonly', True)]}),
+
+		'paciente_otros': fields.text('Otros'),
+		'plantilla_paciente_otros': fields.many2one('doctor.attentions.recomendaciones', 'Plantillas'),
 
 	}
 
@@ -591,6 +663,12 @@ class doctor_psicologia(osv.osv):
 			diseases_ago_ids = self.pool.get('doctor.attentions.diseases').search(cr, uid, [('attentiont_psicologia_id', 'in', atenciones)])
 			
 
+			for otros_paciente in self.browse(cr, uid, atenciones, context=context):
+
+				if otros_paciente.paciente_otros:
+
+					res['paciente_otros'] = otros_paciente.paciente_otros + '\n'
+
 
 			for i in self.pool.get('doctor.attentions.diseases').browse(cr,uid,diseases_ago_ids,context=context):
 				arreglo_ago.append((0,0,{'diseases_id' : i.diseases_id.id , 'status' : i.status, 'diseases_type': i.diseases_type}))
@@ -633,7 +711,13 @@ class doctor_psicologia(osv.osv):
 					res['paciente_parentesco_id'] = datos_paciente.parentesco_id.id
 				if datos_paciente.insurer_prepagada_id:
 					res['paciente_insurer_prepagada_id'] = datos_paciente.insurer_prepagada_id.id
-						
+				if datos_paciente.creencias:
+					res['paciente_creencias'] = datos_paciente.creencias
+				if datos_paciente.rh:
+					res['paciente_rh'] = datos_paciente.rh
+				if datos_paciente.blood_type:
+					res['paciente_blood_type'] = datos_paciente.blood_type
+
 			modelo_buscar = self.pool.get('ir.attachment')
 
 			adjuntos_id = modelo_buscar.search(cr, uid, [('res_id', '=', id_paciente)], context=context)
