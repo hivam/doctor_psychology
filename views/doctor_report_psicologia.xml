@@ -5,5 +5,11 @@
         <report auto="False" id="doctor_attention_psicologia_id" model="doctor.psicologia" name="doctor_attention_psicologia"
                 rml="doctor_psychology/report/doctor_attention_psicologia.rml" string="HC-Atención"
                 usage="default"/>
+
+
+        <report auto="False" id="doctor_attention_psicologia_report" model="doctor.report_print_last" name="doctor_attention_psicologia_report"
+                rml="doctor_psychology/report/doctor_attention_psicologia_report.rml" string="Últimas HC Psicologia"
+                usage="default"/>
+
     </data>
 </openerp>

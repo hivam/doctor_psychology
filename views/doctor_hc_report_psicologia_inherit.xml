@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+	<!--doctor attention inherit-->
+	<record id="doctor_patient_psicologia_inherit_form" model="ir.ui.view">
+	  <field name="name">Historia Clinica Completa</field>
+	  <field name="model">doctor.list_report</field>
+	  <field name="inherit_id" ref="l10n_co_doctor.view_doctor_list_report_form"/>
+	  <field name="arch" type="xml">
+
+			<xpath expr="//form[@string='Historia Clinica Completa']//fieldset[2]" position="after">
+			   <fieldset class="fieldset_margen">
+					<legend class="texto_legend">Lista de Atenciones Psicologia</legend>
+					<group col='4'>
+						<field name="attentions_psychology_ids" nolabel="1" default_order="sequence,date_attention asc">
+							<tree string="HC Psicologia" editable="bottom" default_order="sequence,date_attention asc" create='false'>
+								<field name="patient_id"/>
+								<field name="date_attention"/>
+								<field name="professional_id"/>
+								<field name="speciality"/>
+							</tree>
+						</field>
+					</group>	
+				</fieldset>
+			</xpath>
+
+
+	  </field>
+	</record>
+
+
+  </data>
+</openerp>

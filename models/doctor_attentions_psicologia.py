@@ -526,6 +526,7 @@ class doctor_psicologia(osv.osv):
 
 		'paciente_otros': fields.text('Otros'),
 		'plantilla_paciente_otros': fields.many2one('doctor.attentions.recomendaciones', 'Plantillas'),
+		'list_report_print_spicologia_id': fields.many2one('doctor.list_report_print', 'List Report'),
 
 	}
 
@@ -788,7 +789,7 @@ class doctor_psicologia(osv.osv):
 
 	def button_imprimir_ultimas_hc(self, cr, uid, ids, context=None):
 		data_obj = self.pool.get('ir.model.data')
-		result = data_obj._get_id(cr, uid, 'l10n_co_doctor', 'view_doctor_list_report_print_form')
+		result = data_obj._get_id(cr, uid, 'doctor_psychology', 'view_doctor_report_print_last_form')
 		view_id = data_obj.browse(cr, uid, result).res_id
 
 		profesional=''
@@ -806,7 +807,7 @@ class doctor_psicologia(osv.osv):
 			'view_type': 'form',
 			'view_mode': 'form',
 			'res_id': False,
-			'res_model': 'doctor.list_report_print',
+			'res_model': 'doctor.report_print_last',
 			'context': context or None,
 			'view_id': [view_id] or False,
 			'nodestroy': False,
@@ -820,5 +821,3 @@ class doctor_psicologia(osv.osv):
 
 
 doctor_psicologia()
-
-

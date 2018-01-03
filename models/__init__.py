@@ -6,3 +6,5 @@ import doctor_attentions_diseases_inherit
 import doctor_attentions_certificado_inherit
 import multi_imagen_inherit
 import doctor_parent_ocu
+import doctor_list_report_print_inherit
+import doctor_hc_report_psicologia_inherit
