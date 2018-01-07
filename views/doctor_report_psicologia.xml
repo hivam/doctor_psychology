@@ -6,9 +6,8 @@
                 rml="doctor_psychology/report/doctor_attention_psicologia.rml" string="HC-Atención"
                 usage="default"/>
 
-
-        <report auto="False" id="doctor_attention_psicologia_report" model="doctor.report_print_last" name="doctor_attention_psicologia_report"
-                rml="doctor_psychology/report/doctor_attention_psicologia_report.rml" string="Últimas HC Psicologia"
+        <report auto="False" id="doctor_report_attention_psicologia_id" model="doctor.list_report_print" name="doctor_attention_psicologia_report"
+                rml="doctor_psychology/report/doctor_attention_psicologia_report.rml" string="Últimas HC Psicología"
                 usage="default"/>
 
     </data>

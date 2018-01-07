@@ -82,10 +82,6 @@ class doctor_attention_psicologia_report(report_sxw.rml_parse):
 			return "Relacionado"
 		return ""
 
-report_sxw.report_sxw('report.doctor_attention_psicologia_report', 'doctor.psicologia',
+report_sxw.report_sxw('report.doctor_attention_psicologia_report', 'doctor.list_report',
 					  'addons/doctor_psychology/report/doctor_attention_psicologia_report.rml',
 					  parser=doctor_attention_psicologia_report)
-		
-		
-		
-		

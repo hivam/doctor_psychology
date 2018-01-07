@@ -526,7 +526,7 @@ class doctor_psicologia(osv.osv):
 
 		'paciente_otros': fields.text('Otros'),
 		'plantilla_paciente_otros': fields.many2one('doctor.attentions.recomendaciones', 'Plantillas'),
-		'list_report_print_spicologia_id': fields.many2one('doctor.list_report_print', 'List Report'),
+		'list_report_print_spicologia_id': fields.many2one('doctor.list_report', 'List Report'),
 
 	}
 
@@ -762,8 +762,6 @@ class doctor_psicologia(osv.osv):
 		result = data_obj._get_id(cr, uid, 'l10n_co_doctor', 'view_doctor_list_report_form')
 		view_id = data_obj.browse(cr, uid, result).res_id
 
-
-
 		profesional=''
 		patient=''
 		for x in self.browse(cr,uid,ids):
@@ -772,6 +770,7 @@ class doctor_psicologia(osv.osv):
 
 		context['default_patient_id']= patient
 		context['default_professional_id']= profesional
+		context['default_ultimas_citas'] = False
 
 		return {
 			'type': 'ir.actions.act_window',
@@ -787,10 +786,14 @@ class doctor_psicologia(osv.osv):
 		}
 
 
+
 	def button_imprimir_ultimas_hc(self, cr, uid, ids, context=None):
+
+
 		data_obj = self.pool.get('ir.model.data')
-		result = data_obj._get_id(cr, uid, 'doctor_psychology', 'view_doctor_report_print_last_form')
+		result = data_obj._get_id(cr, uid, 'l10n_co_doctor', 'view_doctor_list_report_form')
 		view_id = data_obj.browse(cr, uid, result).res_id
+
 
 		profesional=''
 		patient=''
@@ -800,19 +803,20 @@ class doctor_psicologia(osv.osv):
 
 		context['default_patient_id']= patient
 		context['default_professional_id']= profesional
+		context['default_ultimas_citas'] = True
 
 		return {
 			'type': 'ir.actions.act_window',
-			'name': 'Ver últimas Atenciones',
+			'name': 'Ver Historia Clínica Completa',
 			'view_type': 'form',
 			'view_mode': 'form',
 			'res_id': False,
-			'res_model': 'doctor.report_print_last',
+			'res_model': 'doctor.list_report',
 			'context': context or None,
 			'view_id': [view_id] or False,
 			'nodestroy': False,
 			'target': 'new'
-			}
+		}
 
 	_defaults = {
 		'date_attention': lambda *a: datetime.strftime(datetime.now(), "%Y-%m-%d %H:%M:%S"),

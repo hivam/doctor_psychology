@@ -116,28 +116,253 @@
   <para style="terp_default_8">[[ repeatIn(objects,'o') ]]</para>
     <para style="terp_default_8">[[ setLang(o.patient_id.patient.lang) or setLang(o.professional_id.user_id.partner_id.lang)]]</para>
 
+    
    <section>
-
-
-
+    [[o.attentions_psychology_ids or removeParentNode('section') ]]
+    <para style="P6">[[ repeatIn(o.attentions_psychology_ids, 'code') ]]</para>
 
     <blockTable colWidths="175.0,175.0,184.0 " style="Table1">
       <tr>
         <td>
-          <para style="17" fontName="Helvetica-Bold">Date: [[ ]]]]</para>
+          <para style="17" fontName="Helvetica-Bold">Date: [[ formatLang(code.date_attention,date=True) ]]</para>
         </td>
         <td>
           <para style="P11"></para>
         </td>
         <td>
-          <para style="P11">Atención N°: [[  o.attentions_psychology_ids ]]</para>
+          <para style="P11">Atención N°: [[ (code.origin) ]]</para>
         </td>
      </tr>
     </blockTable>
 
+    <blockTable colWidths="534.0" style="Table6">
+      <tr>
+        <td>
+          <para style="P2">DATOS DEL PACIENTE</para>
+        </td>
+     </tr>
+    </blockTable>
+
+    <blockTable colWidths="204.0,330.0" style="Table6">
+      <tr>
+        <td>
+          <para style="P6">Documento: [[ (code.patient_id.ref or (removeParentNode('para'))) ]]</para>
+          <para style="P6">Tipo de usuario: [[ select_type(code.patient_id.tipo_usuaricode.id) or removeParentNode('para')]]</para>
+        </td>
+        <td>
+          <para style="P6">Nombre: [[ (code.patient_id.patient.name or (removeParentNode('para'))) ]]</para>
+          <para style="P6">Edad: [[ (code.age_attention or (removeParentNode('para'))) ]] [[ (select_age(code.age_unit) or (removeParentNode('para'))) ]]</para>
+          <para style="P6">Insurer: [[ (code.patient_id.insurer.insurer.name or (removeParentNode('para'))) ]]</para>
+        </td>
+      </tr>
+    </blockTable>
 
 
+    <section>
+        [[code.motivo_consulta or removeParentNode('section') ]]
+        <blockTable colWidths="534.0" style="Table6">
+          <tr>
+            <td>
+              <para style="P2">Motivo Consulta</para>
+            </td>
+         </tr>
+        </blockTable>
 
+        <blockTable colWidths="534" style="Table6">
+          <tr>
+            <td>
+              <para style="p6">[[code.motivo_consulta or removeParentNode('blockTable')]]</para>
+            </td>
+          </tr>
+          </blockTable>
+
+    </section>
+
+    <section>
+        [[code.descripcion_fisica  or removeParentNode('section') ]]
+        <blockTable colWidths="534.0" style="Table6">
+          <tr>
+            <td>
+              <para style="P2">Descripción Física</para>
+            </td>
+         </tr>
+        </blockTable>
+
+        <blockTable colWidths="534" style="Table6">
+          <tr>
+            <td>
+              <para style="p6">[[code.descripcion_fisica or removeParentNode('blockTable')]]</para>
+            </td>
+          </tr>
+          </blockTable>
+
+    </section>
+
+
+    <section>
+        [[code.descripcion_fisica  or removeParentNode('section') ]]
+        <blockTable colWidths="534.0" style="Table6">
+          <tr>
+            <td>
+              <para style="P2">Comportamiento en Consulta</para>
+            </td>
+         </tr>
+        </blockTable>
+
+        <blockTable colWidths="534" style="Table6">
+          <tr>
+            <td>
+              <para style="p6">[[code.comportamiento_consulta or removeParentNode('blockTable')]]</para>
+            </td>
+          </tr>
+          </blockTable>
+
+    </section>
+
+
+    <section>
+      [[code.area_ajuste_ids or removeParentNode('section') ]]
+      <blockTable colWidths="534.0" style="Table6">
+        <tr>
+          <td>
+            <para style="P2">Áreas de Ajuste</para>
+          </td>
+        </tr>
+      </blockTable>
+
+      <blockTable colWidths="200, 334" style="Table6">
+        <tr>
+          <para style="P4">[[ repeatIn(code.area_ajuste_ids, 'line') ]]</para>
+          <td>
+            <para style="P6">[[ line.area_ajuste_id.name]]</para>
+          </td>
+          <td>
+            <para style="P6">[[ line.descripcion]]</para>
+          </td>
+        </tr>  
+      </blockTable>
+
+    </section>
+
+
+    <section>
+      [[code.img_familiograma or removeParentNode('section') ]]
+  
+        <blockTable colWidths="534.0" style="Table6">
+        <tr>
+          <td>
+            <para style="P2">Familiograma</para>
+          </td>
+        </tr>
+      </blockTable>
+
+      <blockTable colWidths="534" style="table_img">
+        <tr>
+          <td alignment="CENTER">
+             <image x="5.3cm" y="40.0cm" width="10.5cm" height="6.5cm" alignment="CENTER">[[code.img_familiograma or removeParentNode('image')]]</image>
+          </td>
+       </tr>
+      </blockTable>
+    </section>
+
+    <section>
+      [[code.estrategia_evaluacion or removeParentNode('section') ]]
+  
+        <blockTable colWidths="534.0" style="Table6">
+        <tr>
+          <td>
+            <para style="P2">Estrategias de evaluacion</para>
+          </td>
+        </tr>
+      </blockTable>
+
+      <blockTable colWidths="534" style="Table6">
+        <tr>
+          <td>
+            <para style="P6">[[(code.estrategia_evaluacion)]]</para>
+          </td>
+       </tr>
+      </blockTable>
+    </section>
+
+    <section>
+      [[code.plan_intervencion or removeParentNode('section') ]]
+
+      <blockTable colWidths="534.0" style="Table6">
+        <tr>
+          <td>
+            <para style="P2">Plan de intervención</para>
+          </td>
+        </tr>
+      </blockTable>
+
+      <blockTable colWidths="534.0" style="Table6">
+        <tr>
+          <td>
+            <para style="P6">[[code.plan_intervencion]] </para>
+          </td>
+       </tr>
+      </blockTable>
+    </section>
+
+    <section>
+      [[code.diseases_ids or removeParentNode('section')]]
+      <blockTable colWidths="534.0" style="Table6">
+        <tr>
+          <td>
+            <para style="P2">Diagnósticos</para>
+          </td>
+        </tr>
+      </blockTable>
+
+      <blockTable colWidths="534.0" style="Table6">
+        <tr>
+          <td>
+            <para style="terp_default_8">Diagnóstico: [[code.diagnostico or removeParentNode('blockTable')]]</para>
+          </td>
+        </tr>
+      </blockTable>
+      <para style="P4">[[ repeatIn(code.diseases_ids, 'line') ]]</para>
+      <blockTable colWidths="384.0,150.0" style="Table6">
+        <tr>
+          <td>
+            <para style="terp_default_8">[[ (line.diseases_id.code) ]] [[ (line.diseases_id.name) ]]</para>
+          </td>
+          <td>
+            <para style="terp_default_8">[[ (select_diseases(line.status)) ]] [[ (select_diseases_type(line.diseases_type)) ]] </para>
+          </td>
+        </tr>
+      </blockTable>
+    </section>
+
+   <section>
+      <blockTable colWidths="534.0" style="Table6">
+        <tr>
+          <td>
+            <para style="P5">Datos Medico</para>
+          </td>
+        </tr>
+      </blockTable>
+      [[ code.professional_id or removeParentNode('section') ]]
+      <blockTable colWidths="350.0,184.0" style="Table6">
+        <tr>
+          <td>
+            <para style="P6">Nombre: [[ (code.professional_id.username or (removeParentNode('para'))) ]]</para>
+          </td>
+          <td>
+            <para style="P6">Numero tarjeta: [[ (code.professional_id.professional_card or (removeParentNode('para'))) ]]</para>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <para style="P6"><b>Firma: [[ ''  ]] </b></para>
+          </td>
+          <td>
+            <para style="P6"><b>Sello: [[ ''  ]] </b></para>
+          </td>
+        </tr>
+      </blockTable>
+    </section>
 <pageBreak/>
  </section>
   </story>

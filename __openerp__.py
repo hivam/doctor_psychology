@@ -38,7 +38,6 @@
                         'views/doctor_area_ajuste_view.xml',
                         'data/tipo_cita_psicologia.sql',
                         'data/area_ajuste.xml',
-                        'views/doctor_list_report_print_inherit.xml',
                         'views/doctor_hc_report_psicologia_inherit.xml',
                     ],      
     'installable' : True,
