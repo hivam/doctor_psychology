@@ -81,7 +81,12 @@ class doctor_patient(osv.osv):
 
 
 	def atender_paciente_psicologia(self, cr, uid, ids, context=None):
-		professional_id= self.pool.get('doctor.professional').browse(cr, uid, self.pool.get('doctor.professional').search(cr, uid, [( 'user_id',  '=', uid)]))[0].id
+		try:
+			professional_id= self.pool.get('doctor.professional').browse(cr, uid, self.pool.get('doctor.professional').search(cr, uid, [( 'user_id',  '=', uid)]))[0].id	
+		except Exception as e:
+			professional_id= None
+			_logger.info("Error en doctor_patient_psicologia ===>  %s", e)
+			
 		for paciente in self.browse(cr,uid,ids):
 			paciente_id = paciente.id
 			context['default_patient_id'] = paciente_id

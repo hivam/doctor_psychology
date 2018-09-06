@@ -3,8 +3,8 @@
   <data>
 
     <!--doctor attention inherit-->
-    <record id="doctor_patient_psicologia_inherit_form" model="ir.ui.view">
-      <field name="name">doctor_patient_inherit_form_view</field>
+    <record id="doctor_patient_psicologia_inherit_form1" model="ir.ui.view">
+      <field name="name">doctor_patient_inherit_form_view1</field>
       <field name="model">doctor.patient</field>
       <field name="inherit_id" ref="doctor.view_doctor_patient_form"/>
       <field name="arch" type="xml">
